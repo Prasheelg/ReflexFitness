@@ -8,15 +8,22 @@
   <meta property="og:title" content="Reflex Fitness | Let's get fit together">
   <meta property="og:description" content="Gym and fitness center in Vidyaranyapura, Bengaluru.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/photos/hero-gym-floor.jpg">
   <meta name="theme-color" content="#06111d">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/photos/hero-gym-floor.jpg">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Photos in assets/photos are free Unsplash stock images used as placeholders.
+       Replace them with real Reflex Fitness photos (same file names) when available. -->
 
   <!-- ============ HEADER ============ -->
   <header class="site-header" id="top">
@@ -31,7 +38,7 @@
 
       <nav id="site-nav" class="site-nav">
         <a href="#programs">Training</a>
-        <a href="#why">Why Reflex</a>
+        <a href="#gallery">Gallery</a>
         <a href="#team">Team</a>
         <a href="#membership">Membership</a>
         <a href="#visit">Visit</a>
@@ -44,21 +51,27 @@
 
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/photos/hero-gym-floor.jpg" alt="" class="hero-img">
+      </div>
       <div class="container hero-inner">
-        <p class="eyebrow">Gym &amp; Fitness Center &middot; Vidyaranyapura, Bengaluru</p>
-        <h1>Let's get<br><span class="accent">fit together.</span></h1>
-        <p class="lead">Reflex Fitness is a neighbourhood gym for people who want to get stronger, lose fat and feel better, with a team that trains alongside you.</p>
-        <div class="hero-cta">
-          <a href="#contact" class="btn">Enquire now</a>
-          <a href="#visit" class="btn btn-ghost">Find the gym</a>
+        <p class="eyebrow intro">Gym &amp; Fitness Center &middot; Vidyaranyapura, Bengaluru</p>
+        <h1>
+          <span class="line"><span>Let's get</span></span>
+          <span class="line"><span class="accent">fit together.</span></span>
+        </h1>
+        <p class="lead intro">Reflex Fitness is a neighbourhood gym for people who want to get stronger, lose fat and feel better, with a team that trains alongside you.</p>
+        <div class="hero-cta intro">
+          <a href="#contact" class="btn magnetic">Enquire now</a>
+          <a href="#gallery" class="btn btn-ghost">See the gym</a>
         </div>
-        <ul class="hero-stats">
+        <ul class="hero-stats intro">
           <li><strong>Strength</strong><span>free weights &amp; machines</span></li>
           <li><strong>Cardio</strong><span>conditioning zone</span></li>
           <li><strong>Coaching</strong><span>personal training</span></li>
         </ul>
       </div>
+      <a href="#programs" class="scroll-cue" aria-label="Scroll to training"><span></span></a>
     </section>
 
     <!-- ============ MARQUEE ============ -->
@@ -72,40 +85,44 @@
     <!-- ============ PROGRAMS ============ -->
     <section class="section" id="programs">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head reveal">
           <p class="eyebrow">Training at Reflex</p>
           <h2>Whatever your goal, start here</h2>
           <p>First time in a gym or getting back after a break, the team will help you find the right starting point.</p>
         </div>
 
-        <div class="card-grid">
-          <article class="card program">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M2 12h2M20 12h2M6 7v10M18 7v10M4 9v6M20 9v6M6 12h12"/></svg>
+        <div class="program-grid stagger">
+          <article class="program tilt">
+            <img src="assets/photos/strength.jpg" alt="Woman lifting a barbell in a squat rack" loading="lazy">
+            <div class="program-body">
+              <span class="program-num">01</span>
+              <h3>Strength Training</h3>
+              <p>Free weights, racks and machines to build muscle and strength at your own pace.</p>
             </div>
-            <h3>Strength Training</h3>
-            <p>Free weights, racks and machines to build muscle and strength at your own pace.</p>
           </article>
-          <article class="card program">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+          <article class="program tilt">
+            <img src="assets/photos/cardio.jpg" alt="Row of treadmills on the cardio floor" loading="lazy">
+            <div class="program-body">
+              <span class="program-num">02</span>
+              <h3>Cardio &amp; Conditioning</h3>
+              <p>Improve stamina and heart health with cardio equipment and conditioning workouts.</p>
             </div>
-            <h3>Cardio &amp; Conditioning</h3>
-            <p>Improve stamina and heart health with cardio equipment and conditioning workouts.</p>
           </article>
-          <article class="card program">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 3c3 4 5 6.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-5 .5 2 1.5 3 3 3-1-3 0-5.5 0-8z"/></svg>
+          <article class="program tilt">
+            <img src="assets/photos/fat-loss.jpg" alt="Athlete training with battle ropes" loading="lazy">
+            <div class="program-body">
+              <span class="program-num">03</span>
+              <h3>Fat Loss &amp; Transformation</h3>
+              <p>Structured training and guidance to help you lose fat and keep it off.</p>
             </div>
-            <h3>Fat Loss &amp; Transformation</h3>
-            <p>Structured training and guidance to help you lose fat and keep it off.</p>
           </article>
-          <article class="card program">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-2a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v2"/><path d="M17 11l2 2 4-4"/></svg>
+          <article class="program tilt">
+            <img src="assets/photos/personal-training.jpg" alt="Man doing barbell curls in the gym" loading="lazy">
+            <div class="program-body">
+              <span class="program-num">04</span>
+              <h3>Personal Training</h3>
+              <p>One-on-one coaching with a plan built around your goals, schedule and fitness level.</p>
             </div>
-            <h3>Personal Training</h3>
-            <p>One-on-one coaching with a plan built around your goals, schedule and fitness level.</p>
           </article>
         </div>
       </div>
@@ -114,16 +131,16 @@
     <!-- ============ WHY US ============ -->
     <section class="section section-alt" id="why">
       <div class="container split">
-        <div class="split-visual" aria-hidden="true">
-          <div class="visual-block">
-            <img src="assets/logo-mark.png" alt="" class="visual-logo">
-            <span class="visual-tag">Let's get fit together</span>
+        <figure class="split-visual photo-reveal">
+          <div class="parallax-frame">
+            <img src="assets/photos/why-grip.jpg" alt="Close-up of a lifter gripping a loaded barbell" loading="lazy" data-parallax="0.12">
           </div>
-        </div>
+          <figcaption class="visual-tag">Let's get fit together</figcaption>
+        </figure>
         <div class="split-copy">
-          <p class="eyebrow">Why Reflex</p>
-          <h2>Stronger together, in fitness and in life</h2>
-          <ul class="checklist">
+          <p class="eyebrow reveal">Why Reflex</p>
+          <h2 class="reveal">Stronger together, in fitness and in life</h2>
+          <ul class="checklist stagger">
             <li><strong>A community, not just a gym.</strong> We celebrate our members and their families, in the gym and outside it.</li>
             <li><strong>A team that knows you.</strong> Get guidance from the Reflex team whenever you need a hand with your training.</li>
             <li><strong>Right in your neighbourhood.</strong> Easy to reach in Vidyaranyapura, so it's easy to show up.</li>
@@ -133,27 +150,50 @@
       </div>
     </section>
 
+    <!-- ============ GALLERY ============ -->
+    <section class="section gallery-section" id="gallery">
+      <div class="container gallery-head">
+        <div class="section-head reveal">
+          <p class="eyebrow">Inside Reflex</p>
+          <h2>Where the work gets done</h2>
+        </div>
+        <div class="gallery-nav reveal">
+          <button class="round-btn" data-dir="-1" aria-label="Previous photos">&larr;</button>
+          <button class="round-btn" data-dir="1" aria-label="Next photos">&rarr;</button>
+        </div>
+      </div>
+      <div class="gallery" tabindex="0" aria-label="Gym photo gallery. Drag or use arrow buttons to browse.">
+        <figure class="shot tall"><img src="assets/photos/gallery-deadlift.jpg" alt="Lifter setting up for a deadlift" loading="lazy"></figure>
+        <figure class="shot"><img src="assets/photos/gallery-dumbbells.jpg" alt="Hand lifting a dumbbell from the rack" loading="lazy"></figure>
+        <figure class="shot tall"><img src="assets/photos/gallery-pullup.jpg" alt="Athlete doing pull-ups" loading="lazy"></figure>
+        <figure class="shot"><img src="assets/photos/gallery-squat.jpg" alt="Woman with a barbell on her back" loading="lazy"></figure>
+        <figure class="shot tall"><img src="assets/photos/gallery-rack.jpg" alt="Row of dumbbells on a rack" loading="lazy"></figure>
+        <figure class="shot"><img src="assets/photos/gallery-focus.jpg" alt="Lifter focusing before a heavy pull" loading="lazy"></figure>
+      </div>
+      <p class="container note">Tap any photo to view it full screen.</p>
+    </section>
+
     <!-- ============ TEAM ============ -->
-    <section class="section" id="team">
+    <section class="section section-alt" id="team">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head reveal">
           <p class="eyebrow">Team Reflex Fitness</p>
           <h2>The people behind Reflex</h2>
         </div>
-        <!-- Add each person's role and a one-line bio when ready. -->
-        <div class="card-grid coaches">
-          <article class="coach">
-            <div class="avatar" style="--hue: 75">S</div>
+        <!-- Add each person's role, a one-line bio and a photo when ready. -->
+        <div class="card-grid coaches stagger">
+          <article class="coach glow">
+            <div class="avatar" style="--hue: 48">S</div>
             <h3>Sachin</h3>
             <p class="role">Team Reflex</p>
           </article>
-          <article class="coach">
-            <div class="avatar" style="--hue: 20">S</div>
+          <article class="coach glow">
+            <div class="avatar" style="--hue: 200">S</div>
             <h3>Sreeja</h3>
             <p class="role">Team Reflex</p>
           </article>
-          <article class="coach">
-            <div class="avatar" style="--hue: 200">S</div>
+          <article class="coach glow">
+            <div class="avatar" style="--hue: 30">S</div>
             <h3>Shreedhar</h3>
             <p class="role">Team Reflex</p>
           </article>
@@ -162,17 +202,17 @@
     </section>
 
     <!-- ============ MEMBERSHIP ============ -->
-    <section class="section section-alt" id="membership">
+    <section class="section" id="membership">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head reveal">
           <p class="eyebrow">Membership</p>
           <h2>Plans that fit your commitment</h2>
           <p>Ask us about current prices and seasonal offers. We regularly run festive deals on yearly memberships.</p>
         </div>
 
         <!-- To show prices, replace "Ask for price" in each .price with the amount. -->
-        <div class="pricing-grid">
-          <article class="plan">
+        <div class="pricing-grid stagger">
+          <article class="plan glow">
             <h3>Monthly</h3>
             <p class="plan-desc">Try it out with no long commitment.</p>
             <p class="price"><span class="amount-text">Ask for price</span></p>
@@ -184,7 +224,7 @@
             <a href="#contact" class="btn btn-ghost btn-block" data-plan="Monthly">Enquire</a>
           </article>
 
-          <article class="plan featured">
+          <article class="plan featured glow">
             <span class="badge">Best value</span>
             <h3>Yearly</h3>
             <p class="plan-desc">Commit to a full year and save the most.</p>
@@ -198,7 +238,7 @@
             <a href="#contact" class="btn btn-block" data-plan="Yearly">Enquire</a>
           </article>
 
-          <article class="plan">
+          <article class="plan glow">
             <h3>Personal Training</h3>
             <p class="plan-desc">One-on-one coaching for faster results.</p>
             <p class="price"><span class="amount-text">Ask for price</span></p>
@@ -215,13 +255,13 @@
 
     <!-- ============ INSTAGRAM ============ -->
     <section class="section insta">
-      <div class="container insta-inner">
+      <div class="container insta-inner reveal">
         <div>
           <p class="eyebrow">Follow along</p>
           <h2>@reflex_fitness_</h2>
           <p class="lead">Workouts, member moments, festival celebrations and offers. Follow us on Instagram so you don't miss the next one.</p>
         </div>
-        <a href="https://www.instagram.com/reflex_fitness_/" class="btn" target="_blank" rel="noopener">
+        <a href="https://www.instagram.com/reflex_fitness_/" class="btn magnetic" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" class="btn-icon" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
           Follow on Instagram
         </a>
@@ -232,9 +272,9 @@
     <section class="section section-alt" id="visit">
       <div class="container split visit">
         <div class="split-copy">
-          <p class="eyebrow">Visit us</p>
-          <h2>Find Reflex Fitness</h2>
-          <ul class="contact-info">
+          <p class="eyebrow reveal">Visit us</p>
+          <h2 class="reveal">Find Reflex Fitness</h2>
+          <ul class="contact-info stagger">
             <li>
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
               <span>Vidyaranyapura, Bengaluru, Karnataka</span>
@@ -244,9 +284,9 @@
               <a href="https://www.instagram.com/reflex_fitness_/" target="_blank" rel="noopener">@reflex_fitness_</a>
             </li>
           </ul>
-          <a href="https://maps.app.goo.gl/VZKRwaSABjbBPDjy9" class="btn" target="_blank" rel="noopener" style="margin-top:2rem">Get directions</a>
+          <a href="https://maps.app.goo.gl/VZKRwaSABjbBPDjy9" class="btn directions reveal" target="_blank" rel="noopener">Get directions</a>
         </div>
-        <div class="map">
+        <div class="map photo-reveal">
           <iframe
             title="Reflex Fitness on Google Maps"
             src="https://maps.google.com/maps?q=Reflex%20Fitness%4013.0789582,77.5589022&z=16&output=embed"
@@ -260,26 +300,26 @@
     <!-- ============ FAQ ============ -->
     <section class="section" id="faq">
       <div class="container narrow">
-        <div class="section-head">
+        <div class="section-head reveal">
           <p class="eyebrow">FAQ</p>
           <h2>Questions, answered</h2>
         </div>
-        <div class="faq">
+        <div class="faq stagger">
           <details>
             <summary>I'm a complete beginner. Is Reflex right for me?</summary>
-            <p>Yes. Lots of our members started from zero. The team will show you how to use the equipment and help you get started safely.</p>
+            <div class="faq-body"><p>Yes. Lots of our members started from zero. The team will show you how to use the equipment and help you get started safely.</p></div>
           </details>
           <details>
             <summary>How do I join?</summary>
-            <p>Send us an enquiry using the form below, message us on Instagram, or just drop in at the gym and the team will take you through the options.</p>
+            <div class="faq-body"><p>Send us an enquiry using the form below, message us on Instagram, or just drop in at the gym and the team will take you through the options.</p></div>
           </details>
           <details>
             <summary>Do you have offers on membership?</summary>
-            <p>We run seasonal and festive offers, especially on yearly memberships. Follow <a href="https://www.instagram.com/reflex_fitness_/" target="_blank" rel="noopener">@reflex_fitness_</a> or ask us for what's running right now.</p>
+            <div class="faq-body"><p>We run seasonal and festive offers, especially on yearly memberships. Follow <a href="https://www.instagram.com/reflex_fitness_/" target="_blank" rel="noopener">@reflex_fitness_</a> or ask us for what's running right now.</p></div>
           </details>
           <details>
             <summary>What should I bring to my first session?</summary>
-            <p>Comfortable workout clothes, clean indoor shoes, a towel and a water bottle.</p>
+            <div class="faq-body"><p>Comfortable workout clothes, clean indoor shoes, a towel and a water bottle.</p></div>
           </details>
         </div>
       </div>
@@ -287,14 +327,17 @@
 
     <!-- ============ CONTACT / CTA ============ -->
     <section class="section cta" id="contact">
+      <div class="cta-media" aria-hidden="true">
+        <img src="assets/photos/gallery-focus.jpg" alt="" loading="lazy" data-parallax="0.1">
+      </div>
       <div class="container split">
         <div class="split-copy">
-          <p class="eyebrow">Start today</p>
-          <h2>Ready to get fit together?</h2>
-          <p class="lead">Tell us a bit about yourself and your goals, and the Reflex team will get back to you.</p>
+          <p class="eyebrow reveal">Start today</p>
+          <h2 class="reveal">Ready to get fit together?</h2>
+          <p class="lead reveal">Tell us a bit about yourself and your goals, and the Reflex team will get back to you.</p>
         </div>
 
-        <form class="trial-form" id="trial-form" novalidate>
+        <form class="trial-form reveal" id="trial-form" novalidate>
           <h3>Membership enquiry</h3>
           <label>
             <span>Full name</span>
@@ -333,8 +376,8 @@
       </a>
       <nav class="footer-links" aria-label="Footer">
         <a href="#programs">Training</a>
+        <a href="#gallery">Gallery</a>
         <a href="#membership">Membership</a>
-        <a href="#visit">Visit</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="socials">
@@ -345,6 +388,15 @@
     <p class="copyright">&copy; <span id="year"></span> Reflex Fitness, Vidyaranyapura, Bengaluru. Let's get fit together.</p>
   </footer>
 
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <button class="lb-close" aria-label="Close">&times;</button>
+    <button class="lb-prev round-btn" aria-label="Previous photo">&larr;</button>
+    <figure><img alt=""><figcaption></figcaption></figure>
+    <button class="lb-next round-btn" aria-label="Next photo">&rarr;</button>
+  </div>
+
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
