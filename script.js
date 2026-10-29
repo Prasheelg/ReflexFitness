@@ -10,6 +10,8 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+// Matches the CSS breakpoint where photos stop being backgrounds
+const smallScreen = window.matchMedia("(max-width: 720px)");
 const header = $(".site-header");
 
 // ---------- Smooth scrolling (Lenis from CDN; native scroll if it fails) ----------
@@ -83,8 +85,12 @@ function frame() {
   progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
 
   if (!reducedMotion) {
-    // Hero: photo drifts slower than the page, text lifts and fades
-    if (y < hero.offsetHeight) {
+    // Hero: photo drifts slower than the page, text lifts and fades (large screens only)
+    if (smallScreen.matches) {
+      heroImg.parentElement.style.transform = "";
+      heroInner.style.transform = "";
+      heroInner.style.opacity = "";
+    } else if (y < hero.offsetHeight) {
       heroImg.parentElement.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
       heroInner.style.transform = `translate3d(0, ${y * -0.12}px, 0)`;
       heroInner.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.75)));
@@ -100,7 +106,7 @@ function frame() {
     }
 
     // Images inside frames drift as they pass through the viewport
-    parallaxImgs.forEach((img) => {
+    if (!smallScreen.matches) parallaxImgs.forEach((img) => {
       const r = img.parentElement.getBoundingClientRect();
       if (r.bottom < 0 || r.top > vh) return;
       const t = (r.top + r.height / 2 - vh / 2) / vh;

@@ -841,6 +841,38 @@ p { margin: 0 0 1em; }
   .shot::after { transform: scale(1); width: 34px; height: 34px; font-size: 1.2rem; }
 }
 
+
+/* ---------- Phones & small tablets: photos shown as pictures, not backdrops ---------- */
+@media (max-width: 720px) {
+  /* Hero photo sits at the top, cropped on the person training, and fades into the text */
+  .hero { display: block; min-height: 0; padding: 0 0 72px; }
+  .hero-media {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    height: min(62vh, 460px);
+    overflow: hidden;
+  }
+  .hero-media::after {
+    background: linear-gradient(180deg,
+      rgb(6 17 29 / .65) 0%,
+      rgb(6 17 29 / 0) 28%,
+      rgb(6 17 29 / .15) 60%,
+      var(--bg) 100%);
+  }
+  .hero-img { height: 100%; object-position: 76% 45%; }
+  .hero-inner { position: relative; z-index: 1; margin-top: -88px; }
+  .scroll-cue { display: none; }
+
+  /* Enquiry section: plain background, the faint photo just looked random */
+  .cta-media { display: none; }
+  .cta { background: radial-gradient(80% 60% at 100% 0%, rgb(56 174 240 / .1), transparent 70%), var(--bg-alt); }
+
+  /* Why photo: fixed crop, no drifting */
+  .parallax-frame { aspect-ratio: 4 / 3; }
+  .parallax-frame img { height: 100%; margin-top: 0; object-position: center 40%; transform: none !important; }
+}
+
 @media (max-width: 560px) {
   :root { --header-h: 64px; }
   .logo img { height: 30px; }
@@ -849,8 +881,6 @@ p { margin: 0 0 1em; }
   h2 { font-size: clamp(1.8rem, 8.5vw, 2.4rem); }
   .lead { font-size: 1.05rem; }
 
-  .hero { min-height: 0; padding: calc(var(--header-h) + 48px) 0 88px; }
-  .hero-media::after { background: linear-gradient(180deg, rgb(6 17 29 / .7) 0%, rgb(6 17 29 / .85) 55%, var(--bg) 100%); }
   .hero h1 { font-size: clamp(2.8rem, 14vw, 3.8rem); }
   .hero-cta { flex-direction: column; margin: 1.5rem 0 2.25rem; }
   .hero-cta .btn { width: 100%; }
@@ -887,9 +917,13 @@ p { margin: 0 0 1em; }
   .site-footer { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 400px) {
   .logo img { height: 26px; }
-  .hero-stats { grid-template-columns: 1fr 1fr; }
+  /* three compact stats in one row */
+  .hero-stats { grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+  .hero-stats li { padding-left: .6rem; }
+  .hero-stats strong { font-size: 1.2rem; }
+  .hero-stats span { font-size: .72rem; line-height: 1.35; display: block; margin-top: .2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
