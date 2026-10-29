@@ -23,7 +23,7 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); overflow-x: hidden; -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
@@ -587,7 +587,7 @@ p { margin: 0 0 1em; }
 }
 .socials a:hover { border-color: var(--accent); background: rgb(247 213 74 / .08); }
 .socials svg { width: 20px; height: 20px; }
-.copyright { text-align: center; color: #5a6b7d; font-size: .85rem; margin: 2rem 0 0; }
+.copyright { text-align: center; color: #5a6b7d; font-size: .85rem; margin: 2rem 0 0; padding-inline: 16px; }
 
 /* ---------- Scroll reveal ---------- */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
@@ -625,8 +625,6 @@ p { margin: 0 0 1em; }
 
 @media (max-width: 560px) {
   .logo img { height: 30px; }
-  .class-row { grid-template-columns: 1fr auto; }
-  .class-row time { grid-column: 1 / -1; color: var(--accent); font-size: .9rem; }
   .hero-stats { grid-template-columns: repeat(2, auto); gap: 1.25rem 2rem; }
   .footer-inner { flex-direction: column; text-align: center; }
   .footer-links { justify-content: center; }
@@ -661,3 +659,58 @@ p { margin: 0 0 1em; }
 }
 .map iframe { width: 100%; height: 100%; border: 0; display: block; filter: grayscale(.3) contrast(1.05); }
 .faq details a { color: var(--accent); }
+
+/* ---------- Phones ---------- */
+/* Placed last so it overrides the section styles above. */
+@media (hover: none) {
+  .card:hover, .btn:hover { transform: none; }
+}
+
+@media (max-width: 560px) {
+  :root { --header-h: 64px; }
+
+  .section { padding: 56px 0; }
+  .section-head { margin-bottom: 2rem; }
+  h2 { font-size: clamp(1.8rem, 8.5vw, 2.4rem); }
+  .lead { font-size: 1.05rem; }
+
+  /* Hero: no forced full-screen height, buttons full width */
+  .hero { min-height: 0; padding: calc(var(--header-h) + 40px) 0 48px; }
+  .hero h1 { font-size: clamp(2.6rem, 13vw, 3.6rem); }
+  .hero-cta { flex-direction: column; margin: 1.5rem 0 2.25rem; }
+  .hero-cta .btn { width: 100%; }
+  .hero-stats strong { font-size: 1.7rem; }
+  .hero-bg::after { font-size: 110vw; bottom: -30vw; right: -20vw; }
+
+  .marquee span { font-size: 1.2rem; padding: .4rem 1rem; }
+  .marquee span::after { margin-left: 2rem; }
+
+  .card, .coach { padding: 1.35rem; }
+
+  /* Team: three compact cards in one row */
+  .coaches { grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+  .coach { padding: 1rem .5rem; }
+  .avatar { width: 56px; height: 56px; font-size: 1.3rem; margin-bottom: .75rem; }
+  .coach h3 { font-size: .95rem; margin-bottom: .2em; }
+  .coach .role { font-size: .72rem; }
+
+  .visual-block { aspect-ratio: 16 / 11; }
+  .plan { padding: 1.5rem; }
+  .price .amount-text { font-size: 1.7rem; }
+
+  .insta h2 { font-size: clamp(1.6rem, 8vw, 2.2rem); word-break: break-word; }
+  .insta .btn { width: 100%; }
+  .map { aspect-ratio: 1 / 1; }
+  #visit .btn { width: 100%; }
+
+  /* 16px inputs stop iOS from zooming in on focus */
+  .trial-form input, .trial-form select, .trial-form textarea { font-size: 16px; }
+
+  .site-footer { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 360px) {
+  .logo img { height: 26px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem; }
+  .coach h3 { font-size: .85rem; }
+}
