@@ -3,7 +3,8 @@
 // Enquiries open WhatsApp with the details pre-filled. Set the gym's WhatsApp
 // number here, country code first, digits only (e.g. "919876543210").
 const WHATSAPP_NUMBER = "";
-const INSTAGRAM_URL = "https://www.instagram.com/reflex_fitness_/";
+// Opens a direct-message chat with the gym on Instagram
+const INSTAGRAM_DM_URL = "https://ig.me/m/reflex_fitness_";
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -16,6 +17,7 @@ const header = $(".site-header");
 
 // ---------- Smooth scrolling (Lenis from CDN; native scroll if it fails) ----------
 let lenis = null;
+let holdHeaderUntil = 0;
 if (window.Lenis && !reducedMotion) {
   lenis = new Lenis({ duration: 1.15, easing: (t) => 1 - Math.pow(1 - t, 4) });
   const raf = (time) => {
@@ -32,6 +34,8 @@ $$('a[href^="#"]').forEach((a) =>
     const target = id === "#top" ? 0 : $(id);
     if (target === null) return;
     e.preventDefault();
+    holdHeaderUntil = performance.now() + 1600;
+    header.classList.remove("tucked");
     const offset = target === 0 ? 0 : -header.offsetHeight + 1;
     if (lenis) {
       lenis.scrollTo(target, { offset });
@@ -71,6 +75,25 @@ const parallaxImgs = $$("[data-parallax]");
 let lastY = window.scrollY;
 let velocity = 0;
 let marqueeX = 0;
+let looping = false;
+let lastScrollAt = 0;
+let marqueeOnScreen = true;
+
+// The loop only runs while the page is scrolling or the ticker is on screen,
+// so an idle page uses no CPU (saves battery on phones).
+function kick() {
+  if (looping) return;
+  looping = true;
+  requestAnimationFrame(frame);
+}
+window.addEventListener("scroll", () => { lastScrollAt = performance.now(); kick(); }, { passive: true });
+window.addEventListener("resize", kick);
+if ("IntersectionObserver" in window && marqueeTrack) {
+  new IntersectionObserver(([e]) => {
+    marqueeOnScreen = e.isIntersecting;
+    if (marqueeOnScreen) kick();
+  }).observe(marqueeTrack.parentElement);
+}
 
 function frame() {
   const y = window.scrollY;
@@ -79,7 +102,9 @@ function frame() {
   velocity = velocity * 0.85 + (y - lastY) * 0.15;
 
   header.classList.toggle("scrolled", y > 20);
-  if (!nav.classList.contains("open")) header.classList.toggle("tucked", y > 500 && y > lastY + 1);
+  if (!nav.classList.contains("open") && performance.now() > holdHeaderUntil) {
+    header.classList.toggle("tucked", y > 500 && y > lastY + 1);
+  }
   lastY = y;
 
   progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
@@ -113,9 +138,14 @@ function frame() {
       img.style.transform = `translate3d(0, ${t * -100 * Number(img.dataset.parallax)}%, 0)`;
     });
   }
-  requestAnimationFrame(frame);
+  const scrolling = performance.now() - lastScrollAt < 250 || Math.abs(velocity) > 0.3;
+  if (scrolling || (marqueeOnScreen && !reducedMotion)) {
+    requestAnimationFrame(frame);
+  } else {
+    looping = false;
+  }
 }
-requestAnimationFrame(frame);
+kick();
 
 // Highlight the nav link for the section on screen
 const navLinks = $$('.site-nav a[href^="#"]:not(.btn)');
@@ -160,7 +190,7 @@ if ("IntersectionObserver" in window && !reducedMotion) {
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(start));
   setTimeout(start, 1200);
 } else {
-  document.body.classList.add("loaded", "no-js");
+  document.body.classList.add("loaded");
 }
 
 // ---------- 3D tilt on program cards ----------
@@ -254,8 +284,10 @@ function showShot(i) {
   if (lbImg.complete) requestAnimationFrame(() => lbImg.classList.add("ready"));
   lbCap.textContent = `${img.alt}  ·  ${lbIndex + 1} / ${shots.length}`;
 }
+const lbBackground = [$("header.site-header"), $("main"), $("footer")];
 function openLightbox(i) {
   lastFocus = document.activeElement;
+  lbBackground.forEach((el) => (el.inert = true));
   lb.hidden = false;
   document.body.classList.add("lb-open");
   if (lenis) lenis.stop();
@@ -264,6 +296,7 @@ function openLightbox(i) {
   $(".lb-close", lb).focus();
 }
 function closeLightbox() {
+  lbBackground.forEach((el) => (el.inert = false));
   lb.classList.remove("open");
   document.body.classList.remove("lb-open");
   if (lenis) lenis.start();
@@ -292,6 +325,13 @@ lb.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (lb.hidden) return;
   if (e.key === "Escape") closeLightbox();
+  // keep Tab inside the viewer
+  if (e.key === "Tab") {
+    const items = $$("button", lb);
+    const i = items.indexOf(document.activeElement);
+    e.preventDefault();
+    items[(i + (e.shiftKey ? -1 : 1) + items.length) % items.length].focus();
+  }
   if (e.key === "ArrowRight") showShot(lbIndex + 1);
   if (e.key === "ArrowLeft") showShot(lbIndex - 1);
 });
@@ -325,6 +365,7 @@ $$(".faq details").forEach((d) => {
 });
 
 // ---------- Enquiry form ----------
+const escapeHtml = (str) => str.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const form = $("#trial-form");
 const status = $("#form-status");
 
@@ -332,9 +373,13 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   status.className = "form-status";
 
+  // Indian mobile: 10 digits starting 6-9, optionally with +91 / 0 in front
+  const digits = form.phone.value.replace(/\D/g, "").replace(/^(91|0)(?=\d{10}$)/, "");
+  const phoneOk = /^[6-9]\d{9}$/.test(digits);
+
   let valid = true;
   $$("[required]", form).forEach((field) => {
-    const ok = field.value.trim() !== "" && field.checkValidity();
+    const ok = field.value.trim() !== "" && field.checkValidity() && (field !== form.phone || phoneOk);
     field.classList.remove("invalid");
     if (!ok) {
       void field.offsetWidth; // restart the shake animation
@@ -343,7 +388,9 @@ form.addEventListener("submit", (e) => {
     }
   });
   if (!valid) {
-    status.textContent = "Please fill in your name and phone number.";
+    status.textContent = form.name.value.trim() && !phoneOk
+      ? "Please enter a valid 10-digit mobile number."
+      : "Please fill in your name and phone number.";
     status.classList.add("err");
     return;
   }
@@ -352,7 +399,7 @@ form.addEventListener("submit", (e) => {
   const text = [
     "Hi Reflex Fitness, I'd like to know more about membership.",
     `Name: ${data.name}`,
-    `Phone: ${data.phone}`,
+    `Phone: ${digits}`,
     `Interested in: ${data.interest}`,
     data.message ? `Goals: ${data.message}` : "",
   ]
@@ -364,9 +411,20 @@ form.addEventListener("submit", (e) => {
     status.textContent = "Opening WhatsApp to send your enquiry...";
     status.classList.add("ok");
   } else {
-    window.open(INSTAGRAM_URL, "_blank", "noopener");
-    status.textContent = "Thanks! Send us a DM on Instagram (@reflex_fitness_) and we'll get back to you.";
-    status.classList.add("ok");
+    // No WhatsApp number yet: copy the message, then open an Instagram chat
+    // so the visitor only has to paste it. Nothing they typed is lost.
+    const done = (copied) => {
+      window.open(INSTAGRAM_DM_URL, "_blank", "noopener");
+      status.innerHTML = copied
+        ? "Your message is copied. <strong>Paste it in the Instagram chat</strong> that just opened and press send."
+        : `Please send us this on Instagram (@reflex_fitness_):<br><em>${escapeHtml(text).replace(/\n/g, "<br>")}</em>`;
+      status.classList.add("ok");
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => done(true), () => done(false));
+    } else {
+      done(false);
+    }
   }
 });
 

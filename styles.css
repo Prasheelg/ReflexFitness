@@ -46,6 +46,22 @@ body {
 body.lb-open { overflow: hidden; }
 
 img, svg { display: block; max-width: 100%; }
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  padding: .7em 1.2em;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform .2s;
+}
+.skip-link:focus { transform: none; }
 a { color: inherit; }
 ::selection { background: var(--accent); color: var(--accent-ink); }
 
@@ -244,23 +260,18 @@ p { margin: 0 0 1em; }
   margin-bottom: .35em;
 }
 .hero h1 .line { display: block; overflow: hidden; padding-bottom: .04em; }
-.hero h1 .line > span {
-  display: block;
-  transform: translate3d(0, 110%, 0);
-  transition: transform 1.2s var(--ease-out);
-}
+.hero h1 .line > span { display: block; transition: transform 1.2s var(--ease-out); }
+/* Hidden-before-animation states only apply while script.js is running (html.js) */
+.js .hero h1 .line > span { transform: translate3d(0, 110%, 0); }
 .hero h1 .line:nth-child(2) > span { transition-delay: .12s; }
-.intro {
-  opacity: 0;
-  transform: translate3d(0, 24px, 0);
-  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
-}
+.intro { transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+.js .intro { opacity: 0; transform: translate3d(0, 24px, 0); }
 .hero .eyebrow.intro { transition-delay: .05s; }
 .hero .lead.intro { transition-delay: .35s; }
 .hero-cta.intro { transition-delay: .5s; }
 .hero-stats.intro { transition-delay: .65s; }
-.loaded .hero h1 .line > span,
-.loaded .intro { opacity: 1; transform: none; }
+.js .loaded .hero h1 .line > span,
+.js .loaded .intro { opacity: 1; transform: none; }
 
 .hero-cta { display: flex; flex-wrap: wrap; gap: 1rem; margin: 2rem 0 3.5rem; }
 .hero-stats {
@@ -396,9 +407,13 @@ p { margin: 0 0 1em; }
   overflow: hidden;
   transition: max-height .6s var(--ease-out), opacity .4s, margin .6s var(--ease-out);
 }
-.program:hover { box-shadow: 0 24px 60px rgb(0 0 0 / .45), 0 0 0 1px rgb(247 213 74 / .5); }
-.program:hover img { transform: scale(1.14); filter: saturate(1.05); }
-.program:hover p { max-height: 8em; opacity: 1; margin-top: .6rem; }
+.program:hover,
+.program:focus-visible { box-shadow: 0 24px 60px rgb(0 0 0 / .45), 0 0 0 1px rgb(247 213 74 / .5); }
+.program:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.program:hover img,
+.program:focus-visible img { transform: scale(1.14); filter: saturate(1.05); }
+.program:hover p,
+.program:focus-visible p { max-height: 8em; opacity: 1; margin-top: .6rem; }
 
 /* ---------- Split layout ---------- */
 .split {
@@ -733,6 +748,8 @@ p { margin: 0 0 1em; }
   transition: border-color .2s, box-shadow .2s;
 }
 .trial-form textarea { resize: vertical; }
+.trial-form ::placeholder { color: #8a9bad; opacity: 1; }
+.privacy-note { margin: 0; font-size: .8rem; color: var(--muted); }
 .trial-form input:focus,
 .trial-form select:focus,
 .trial-form textarea:focus {
@@ -770,27 +787,28 @@ p { margin: 0 0 1em; }
 }
 .socials a:hover { border-color: var(--accent); background: rgb(247 213 74 / .08); transform: translateY(-3px); }
 .socials svg { width: 20px; height: 20px; }
-.copyright { text-align: center; color: #5a6b7d; font-size: .85rem; margin: 2rem 0 0; padding-inline: 16px; }
+.copyright { text-align: center; color: #8193a5; font-size: .85rem; margin: 2rem 0 0; padding-inline: 16px; }
 
 /* ---------- Scroll reveal (classes added by script.js) ---------- */
 .reveal, .stagger > * {
-  opacity: 0;
-  transform: translate3d(0, 40px, 0);
   transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
   transition-delay: var(--d, 0ms);
 }
-.reveal.in, .stagger > .in { opacity: 1; transform: none; }
+.js .reveal, .js .stagger > * { opacity: 0; transform: translate3d(0, 40px, 0); }
+.js .reveal.in, .js .stagger > .in { opacity: 1; transform: none; }
 /* after reveal, hand transforms back to hover effects */
 .stagger > .settled { transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out), border-color .3s; transition-delay: 0ms; }
 
 /* Photos open like a curtain */
-.photo-reveal { clip-path: inset(12% 12% 12% 12% round 24px); opacity: 0; transition: clip-path 1.4s var(--ease-out), opacity .8s; }
-.photo-reveal.in { clip-path: inset(0 0 0 0 round 24px); opacity: 1; }
-.map.photo-reveal { clip-path: inset(12% 12% 12% 12% round 20px); }
-.map.photo-reveal.in { clip-path: inset(0 round 20px); }
+.photo-reveal { transition: clip-path 1.4s var(--ease-out), opacity .8s; }
+.js .photo-reveal { clip-path: inset(12% 12% 12% 12% round 24px); opacity: 0; }
+.js .photo-reveal.in { clip-path: inset(0 0 0 0 round 24px); opacity: 1; }
+.js .map.photo-reveal { clip-path: inset(12% 12% 12% 12% round 20px); }
+.js .map.photo-reveal.in { clip-path: inset(0 round 20px); }
 
-.no-js .reveal, .no-js .stagger > *, .no-js .intro, .no-js .photo-reveal { opacity: 1; transform: none; clip-path: none; }
-.no-js .hero h1 .line > span { transform: none; }
+/* Without script.js the ticker still scrolls, just at a constant speed */
+html:not(.js) .marquee-track { animation: marquee 40s linear infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {

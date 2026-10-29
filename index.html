@@ -1,25 +1,63 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reflex Fitness | Gym in Vidyaranyapura, Bengaluru</title>
   <meta name="description" content="Reflex Fitness is a gym and fitness center in Vidyaranyapura, Bengaluru. Strength training, cardio, personal training and fat loss coaching. Let's get fit together.">
+  <!-- When the site moves to its own domain, update these URLs, robots.txt and sitemap.xml -->
+  <link rel="canonical" href="https://prasheelg.github.io/ReflexFitness/">
   <meta property="og:title" content="Reflex Fitness | Let's get fit together">
   <meta property="og:description" content="Gym and fitness center in Vidyaranyapura, Bengaluru.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/photos/hero-gym-floor.jpg">
+  <meta property="og:url" content="https://prasheelg.github.io/ReflexFitness/">
+  <meta property="og:image" content="https://prasheelg.github.io/ReflexFitness/assets/photos/hero-gym-floor.jpg">
+  <meta property="og:image:width" content="1920">
+  <meta property="og:image:height" content="1280">
+  <meta property="og:site_name" content="Reflex Fitness">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#06111d">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/photos/hero-gym-floor.jpg">
-  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
+  <link rel="preload" as="image" href="assets/photos/hero-gym-floor.jpg"
+        imagesrcset="assets/photos/hero-gym-floor-900.jpg 900w, assets/photos/hero-gym-floor.jpg 1920w" imagesizes="100vw">
+  <link rel="stylesheet" href="assets/vendor/lenis.css">
+  <script>
+    // Animations hide content until script.js reveals it. If the script never
+    // runs (blocked, slow network, error), drop the class so everything shows.
+    document.documentElement.classList.add("js");
+    setTimeout(function () {
+      if (!document.body || !document.body.classList.contains("loaded")) document.documentElement.classList.remove("js");
+    }, 3000);
+  </script>
   <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ExerciseGym",
+    "name": "Reflex Fitness",
+    "slogan": "Let's get fit together",
+    "url": "https://prasheelg.github.io/ReflexFitness/",
+    "image": "https://prasheelg.github.io/ReflexFitness/assets/photos/hero-gym-floor.jpg",
+    "logo": "https://prasheelg.github.io/ReflexFitness/assets/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Vidyaranyapura, Bengaluru",
+      "addressRegion": "Karnataka",
+      "addressCountry": "IN"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 13.0789582, "longitude": 77.5589022 },
+    "hasMap": "https://maps.app.goo.gl/VZKRwaSABjbBPDjy9",
+    "sameAs": ["https://www.instagram.com/reflex_fitness_/"]
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="scroll-progress" aria-hidden="true"></div>
 
   <!-- Photos in assets/photos are free Unsplash stock images used as placeholders.
@@ -47,12 +85,14 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
 
     <!-- ============ HERO ============ -->
     <section class="hero">
       <div class="hero-media" aria-hidden="true">
-        <img src="assets/photos/hero-gym-floor.jpg" alt="" class="hero-img">
+        <img src="assets/photos/hero-gym-floor.jpg"
+             srcset="assets/photos/hero-gym-floor-900.jpg 900w, assets/photos/hero-gym-floor.jpg 1920w"
+             sizes="100vw" alt="" class="hero-img" fetchpriority="high">
       </div>
       <div class="container hero-inner">
         <p class="eyebrow intro">Gym &amp; Fitness Center &middot; Vidyaranyapura, Bengaluru</p>
@@ -92,7 +132,7 @@
         </div>
 
         <div class="program-grid stagger">
-          <article class="program tilt">
+          <article class="program tilt" tabindex="0">
             <img src="assets/photos/strength.jpg" alt="Woman lifting a barbell in a squat rack" loading="lazy">
             <div class="program-body">
               <span class="program-num">01</span>
@@ -100,7 +140,7 @@
               <p>Free weights, racks and machines to build muscle and strength at your own pace.</p>
             </div>
           </article>
-          <article class="program tilt">
+          <article class="program tilt" tabindex="0">
             <img src="assets/photos/cardio.jpg" alt="Row of treadmills on the cardio floor" loading="lazy">
             <div class="program-body">
               <span class="program-num">02</span>
@@ -108,7 +148,7 @@
               <p>Improve stamina and heart health with cardio equipment and conditioning workouts.</p>
             </div>
           </article>
-          <article class="program tilt">
+          <article class="program tilt" tabindex="0">
             <img src="assets/photos/fat-loss.jpg" alt="Athlete training with battle ropes" loading="lazy">
             <div class="program-body">
               <span class="program-num">03</span>
@@ -116,7 +156,7 @@
               <p>Structured training and guidance to help you lose fat and keep it off.</p>
             </div>
           </article>
-          <article class="program tilt">
+          <article class="program tilt" tabindex="0">
             <img src="assets/photos/personal-training.jpg" alt="Man doing barbell curls in the gym" loading="lazy">
             <div class="program-body">
               <span class="program-num">04</span>
@@ -345,7 +385,7 @@
           </label>
           <label>
             <span>Phone</span>
-            <input type="tel" name="phone" autocomplete="tel" required>
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="10-digit mobile number" required>
           </label>
           <label>
             <span>Interested in</span>
@@ -362,6 +402,7 @@
           </label>
           <button type="submit" class="btn btn-block">Send enquiry</button>
           <p class="form-status" id="form-status" role="status"></p>
+          <p class="privacy-note">We only use your details to reply to your enquiry. We never share them.</p>
         </form>
       </div>
     </section>
@@ -396,7 +437,7 @@
     <button class="lb-next round-btn" aria-label="Next photo">&rarr;</button>
   </div>
 
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
